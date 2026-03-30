@@ -21,7 +21,7 @@
     "Programming": ["Python", "R","C#","SQL","JavaScript"],
     "GIS & Remote Sensing": ["ArcGIS Pro", "ArcGIS Online","Field Maps","Survey123", "StoryMaps", "Remote Sensing"],
     "Web Development": ["HTML", "CSS"],
-    "Software": ["Microsoft Office,", "Power BI"],
-    "Field Skills": ["Species Identification,", "GPS and navigation","Habitat Sampling"]
+    "Software": ["Microsoft Office", "Power BI"],
+    "Field Skills": ["Species Identification", "GPS and navigation","Habitat Sampling"]
   }
 }
