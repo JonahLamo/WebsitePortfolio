@@ -1,43 +1,96 @@
 const JSON_PATH = "Jasons/prj.json";
 
-let allProjects = [];
-let activeFilter = "All";
+let allProjects   = [];
+let allCategories = [];
+let activeFilters = new Set(); // multi-select set
 
 fetch(JSON_PATH)
   .then(res => res.json())
   .then(data => {
-    allProjects = data.projects || [];
-    buildFilters(data.categories || []);
-    renderGrids(allProjects);
+    allProjects   = data.projects   || [];
+    allCategories = data.categories || [];
+
+    buildFilters();
+    renderGrids(getSortedProjects(allProjects));
+
+    // Auto-load the featured:1 project in the detail panel
+    const top1 = allProjects.find(p => p.featured === 1);
+    if (top1) showDetail(top1);
   })
   .catch(err => console.error("Failed to load prj.json:", err));
 
-/* ---- FILTERS ---- */
-function buildFilters(categories) {
+/* ================================================
+   SORTING — featured projects (1,2,3) come first,
+   then the rest in their original JSON order
+   ================================================ */
+function getSortedProjects(projects) {
+  const featured = projects
+    .filter(p => p.featured > 0)
+    .sort((a, b) => a.featured - b.featured);
+  const rest = projects.filter(p => !p.featured || p.featured === 0);
+  return [...featured, ...rest];
+}
+
+/* ================================================
+   FILTERS — smart: only show buttons that have
+   at least one project matching ALL active filters
+   ================================================ */
+function buildFilters() {
   const container = document.getElementById("filterBtns");
-  const all = ["All", ...categories];
+  container.innerHTML = "";
 
-  all.forEach(cat => {
+  // "All" reset button
+  const allBtn = document.createElement("button");
+  allBtn.className = "filter-btn" + (activeFilters.size === 0 ? " active" : "");
+  allBtn.textContent = "All";
+  allBtn.addEventListener("click", () => {
+    activeFilters.clear();
+    buildFilters();
+    renderGrids(getSortedProjects(allProjects));
+    clearDetail();
+  });
+  container.appendChild(allBtn);
+
+  // One button per category — only shown if it produces results
+  allCategories.forEach(cat => {
+    // Would adding this cat to current active filters return any projects?
+    const testSet = new Set([...activeFilters, cat]);
+    const wouldMatch = allProjects.filter(p =>
+      [...testSet].every(f => p.categories.includes(f))
+    );
+    if (wouldMatch.length === 0) return; // dead end — hide this button
+
     const btn = document.createElement("button");
-    btn.className = "filter-btn" + (cat === "All" ? " active" : "");
+    const isActive = activeFilters.has(cat);
+    btn.className = "filter-btn" + (isActive ? " active" : "");
     btn.textContent = cat;
+
     btn.addEventListener("click", () => {
-      activeFilter = cat;
-      container.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
-      btn.classList.add("active");
-
-      const filtered = cat === "All"
-        ? allProjects
-        : allProjects.filter(p => p.categories.includes(cat));
-
-      renderGrids(filtered);
+      if (activeFilters.has(cat)) {
+        activeFilters.delete(cat);
+      } else {
+        activeFilters.add(cat);
+      }
+      buildFilters(); // rebuild to hide dead-end buttons
+      const filtered = getFiltered();
+      renderGrids(getSortedProjects(filtered));
       clearDetail();
     });
+
     container.appendChild(btn);
   });
 }
 
-/* ---- RENDER GRIDS ---- */
+function getFiltered() {
+  if (activeFilters.size === 0) return allProjects;
+  return allProjects.filter(p =>
+    [...activeFilters].every(f => p.categories.includes(f))
+  );
+}
+
+/* ================================================
+   RENDER GRID
+   ================================================ */
 function renderGrids(projects) {
   const grid      = document.getElementById("projectGrid");
   const moreBtn   = document.getElementById("showMoreBtn");
@@ -48,7 +101,6 @@ function renderGrids(projects) {
     if (child !== moreBtn) child.remove();
   });
 
-  // Reset to collapsed state
   moreBtn.classList.remove("expanded");
 
   const top  = projects.slice(0, 3);
@@ -64,7 +116,6 @@ function renderGrids(projects) {
     grid.insertBefore(card, moreBtn);
   });
 
-  // Update button label / visibility
   if (rest.length === 0) {
     moreBtn.style.visibility = "hidden";
   } else {
@@ -73,11 +124,21 @@ function renderGrids(projects) {
   }
 }
 
-/* ---- PROJECT CARD ---- */
+/* ================================================
+   PROJECT CARD
+   ================================================ */
 function makeCard(project) {
   const card = document.createElement("div");
   card.className = "prj-card";
   card.dataset.id = project.id;
+
+  // Featured badge
+  if (project.featured > 0) {
+    const badge = document.createElement("div");
+    badge.className = "prj-badge";
+    badge.textContent = "Featured";
+    card.appendChild(badge);
+  }
 
   if (project.thumbnail) {
     const img = document.createElement("img");
@@ -109,7 +170,9 @@ function makeCard(project) {
   return card;
 }
 
-/* ---- DETAIL PANEL ---- */
+/* ================================================
+   DETAIL PANEL
+   ================================================ */
 function showDetail(project) {
   const panel = document.getElementById("detailPanel");
   panel.innerHTML = "";
@@ -120,7 +183,7 @@ function showDetail(project) {
   if (project.mapEmbed) {
     const frame = document.createElement("iframe");
     frame.src = project.mapEmbed;
-    frame.style.cssText = "width:100%;height:160px;border:none;border-radius:8px;";
+    frame.style.cssText = "width:100%;height:200px;border:none;border-radius:8px;";
     frame.allowFullscreen = true;
     inner.appendChild(frame);
   } else if (project.image) {
@@ -165,6 +228,11 @@ function showDetail(project) {
 
   inner.appendChild(body);
   panel.appendChild(inner);
+
+  // Highlight the matching card if visible
+  document.querySelectorAll(".prj-card").forEach(c => c.classList.remove("selected"));
+  const match = document.querySelector(".prj-card[data-id='" + project.id + "']");
+  if (match) match.classList.add("selected");
 }
 
 function clearDetail() {
@@ -172,7 +240,9 @@ function clearDetail() {
     "<p class='detail-placeholder'>Click a project to see more information here.</p>";
 }
 
-/* ---- SHOW MORE BUTTON ---- */
+/* ================================================
+   SHOW MORE BUTTON
+   ================================================ */
 document.getElementById("showMoreBtn").addEventListener("click", () => {
   const grid       = document.getElementById("projectGrid");
   const btn        = document.getElementById("showMoreBtn");
@@ -180,12 +250,10 @@ document.getElementById("showMoreBtn").addEventListener("click", () => {
   const isExpanded = btn.classList.contains("expanded");
 
   if (!isExpanded) {
-    // Reveal all hidden cards
     grid.querySelectorAll(".prj-hidden").forEach(c => c.classList.remove("prj-hidden"));
     label.textContent = "－ Show Less";
     btn.classList.add("expanded");
   } else {
-    // Re-hide everything after the first 3
     const allCards = Array.from(grid.querySelectorAll(".prj-card:not(#showMoreBtn)"));
     allCards.slice(3).forEach(c => c.classList.add("prj-hidden"));
     label.textContent = "＋ More Projects (" + (allCards.length - 3) + ")";

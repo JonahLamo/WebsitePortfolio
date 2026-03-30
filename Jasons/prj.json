@@ -4,6 +4,7 @@
     {
       "id": "prj1",
       "title": "Oh Deer!: An Ethological Study on Local Deer Populations",
+      "featured": 0,
       "categories": ["Ecology", "Poster"],
       "thumbnail": "images/deer_thumbnail.png",
       "image": "images/deer_poster.png",
@@ -14,6 +15,7 @@
     {
       "id": "prj2",
       "title": "Alberta Invasive Species Council",
+      "featured": 3,
       "categories": ["Ecology", "Conservation"],
       "thumbnail": "images/Lmaoidiot.jpg",
       "image": "images/Lmaoidiot.jpg",
@@ -24,6 +26,7 @@
     {
       "id": "prj3",
       "title": "Saddle Lake Solar Farm",
+      "featured": 2,
       "categories": ["GIS"],
       "thumbnail": "images/SL_map.jpg",
       "image": "images/SL_map.jpg",
@@ -34,6 +37,7 @@
     {
       "id": "prj4",
       "title": "Freshwater Conservation Canada Poster",
+      "featured": 0,
       "categories": ["GIS", "Poster"],
       "thumbnail": "images/FCCEasyPoster.png",
       "image": "images/FCCEasyPoster.png",
@@ -44,26 +48,29 @@
     {
       "id": "prj5",
       "title": "2026 Winter Olympics Poster",
+      "featured": 0,
       "categories": ["Poster", "Data Science"],
       "thumbnail": "images/OlympicsPoster.png",
       "image": "images/OlympicsPoster.png",
       "mapEmbed": "",
-      "description": "Classified land cover types from satellite imagery using supervised classification techniques in ArcGIS Pro. Accuracy assessment performed with confusion matrices in Python.",
+      "description": "A data visualization poster created for the 2026 Milan-Cortina Winter Olympics.",
       "link": ""
     },
     {
       "id": "prj6",
       "title": "Robot Car",
+      "featured": 0,
       "categories": ["IoT"],
       "thumbnail": "images/robit.jpg",
       "image": "images/robit.jpg",
       "mapEmbed": "",
-      "description": "Created a robotic car about 5 years ago that stops x amount of cm away from a light. The offical image is lost along with the robot.",
+      "description": "Created a robotic car about 5 years ago that stops x amount of cm away from a light. The official image is lost along with the robot.",
       "link": ""
     },
     {
       "id": "prj7",
       "title": "Freshwater Conservation Canada Analysis",
+      "featured": 1,
       "categories": ["GIS", "Remote Sensing"],
       "thumbnail": "images/FCChardPoster.png",
       "image": "images/FCChardPoster.png",
@@ -71,15 +78,16 @@
       "description": "Designed an interactive Power BI dashboard summarising multi-year ecological monitoring data, allowing stakeholders to filter by species, year, and survey location.",
       "link": ""
     },
-    {"test":{
+    {
       "id": "prjX",
       "title": "NAME",
+      "featured": 0,
       "categories": ["GIS"],
       "thumbnail": "images/FCChardPoster.png",
       "image": "images/FCChardPoster.png",
       "mapEmbed": "",
       "description": "Description",
       "link": ""
-    }}
+    }
   ]
 }
