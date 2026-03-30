@@ -1,0 +1,85 @@
+{
+  "categories": ["GIS", "Ecology", "Data Science", "Poster", "Conservation", "IoT", "Remote Sensing"],
+  "projects": [
+    {
+      "id": "prj1",
+      "title": "Oh Deer!: An Ethological Study on Local Deer Populations",
+      "categories": ["Ecology", "Poster"],
+      "thumbnail": "images/deer_thumbnail.png",
+      "image": "images/deer_poster.png",
+      "mapEmbed": "",
+      "description": "A research project for my Animal Behaviour class that was looking at local deer populations feeding habits outside Okotoks, AB and a wild population near Longview, AB.",
+      "link": ""
+    },
+    {
+      "id": "prj2",
+      "title": "Alberta Invasive Species Council",
+      "categories": ["Ecology", "Conservation"],
+      "thumbnail": "images/Lmaoidiot.jpg",
+      "image": "images/Lmaoidiot.jpg",
+      "mapEmbed": "",
+      "description": "Wrote a report for the Alberta Invasive Species Council on the potentially invasive Siberian Squill that could threaten the Western Blue Flag Iris.",
+      "link": ""
+    },
+    {
+      "id": "prj3",
+      "title": "Saddle Lake Solar Farm",
+      "categories": ["GIS"],
+      "thumbnail": "images/SL_map.jpg",
+      "image": "images/SL_map.jpg",
+      "mapEmbed": "",
+      "description": "A project on a theoretical solar farm at the Saddle Lake reserve in Northern Alberta that included basic ArcGIS tools, vector and rasters, DEMs, and the whole ArcGIS pro workflow.",
+      "link": ""
+    },
+    {
+      "id": "prj4",
+      "title": "Freshwater Conservation Canada Poster",
+      "categories": ["GIS", "Poster"],
+      "thumbnail": "images/FCCEasyPoster.png",
+      "image": "images/FCCEasyPoster.png",
+      "mapEmbed": "",
+      "description": "Worked on a project for Freshwater Conservation Canada at Elk Creek and quantified their efforts. This poster is the simplified version focusing on the accessability and readability for anyone to read.",
+      "link": ""
+    },
+    {
+      "id": "prj5",
+      "title": "2026 Winter Olympics Poster",
+      "categories": ["Poster", "Data Science"],
+      "thumbnail": "images/OlympicsPoster.png",
+      "image": "images/OlympicsPoster.png",
+      "mapEmbed": "",
+      "description": "Classified land cover types from satellite imagery using supervised classification techniques in ArcGIS Pro. Accuracy assessment performed with confusion matrices in Python.",
+      "link": ""
+    },
+    {
+      "id": "prj6",
+      "title": "Robot Car",
+      "categories": ["IoT"],
+      "thumbnail": "images/robit.jpg",
+      "image": "images/robit.jpg",
+      "mapEmbed": "",
+      "description": "Created a robotic car about 5 years ago that stops x amount of cm away from a light. The offical image is lost along with the robot.",
+      "link": ""
+    },
+    {
+      "id": "prj7",
+      "title": "Freshwater Conservation Canada Analysis",
+      "categories": ["GIS", "Remote Sensing"],
+      "thumbnail": "images/FCChardPoster.png",
+      "image": "images/FCChardPoster.png",
+      "mapEmbed": "",
+      "description": "Designed an interactive Power BI dashboard summarising multi-year ecological monitoring data, allowing stakeholders to filter by species, year, and survey location.",
+      "link": ""
+    },
+    {"test":{
+      "id": "prjX",
+      "title": "NAME",
+      "categories": ["GIS"],
+      "thumbnail": "images/FCChardPoster.png",
+      "image": "images/FCChardPoster.png",
+      "mapEmbed": "",
+      "description": "Description",
+      "link": ""
+    }}
+  ]
+}

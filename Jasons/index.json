@@ -1,0 +1,27 @@
+{
+  "aboutHeading": "Ecologist, GIS Analysit, Data Scientist",
+  "basicInfo": "Hello and Welcome! I am a graduated and Spataial Data Scientist eager to get to wok.",
+  "photos": ["images/tree.jpg","images/Lights.jpeg", "images/Camp.png","images/Expo.jpg"],
+  "resumeUrl": "images/JonahResume.pdf",
+  "contactEmail": "Jonah1350@outlook.com",
+  "contactIntro": "Email Prompter — feel free to reach out!",
+  "footer": "© 2025 Your Name. All rights reserved.",
+  "exp": {
+    "edu": [
+      "Mount Royal University — Bachelors of Science, 2025",
+      "Mount Royal University - Post Graduate Certificate, Spatial Data Science, 2026"
+    ],
+    "work": [
+      "Mount Royal University — Researcher in Quantiative Analyst",
+      "Freshwater Conservation Canada — GIS Research Project",
+      "Miistakis Institute — Data and GIS Analysis Project"
+    ]
+  },
+  "skills": {
+    "Programming": ["Python", "R","C#","SQL","JavaScript"],
+    "GIS & Remote Sensing": ["ArcGIS Pro", "ArcGIS Online","Field Maps","Survey123", "StoryMaps", "Remote Sensing"],
+    "Web Development": ["HTML", "CSS"],
+    "Software": ["Microsoft Office,", "Power BI"],
+    "Field Skills": ["Species Identification,", "GPS and navigation","Habitat Sampling"]
+  }
+}
