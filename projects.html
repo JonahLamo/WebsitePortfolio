@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Projects Page</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <link rel="stylesheet" href="scripts/prj.css" />
+  </head>
+
+  <body>
+
+    <!-- Top nav bar -->
+    <header class="top-bar">
+      <span class="top-link">Projects</span>
+      <a href="index.html" class="top-link">About Page</a>
+    </header>
+
+    <div class="page-wrapper">
+
+    
+      <!-- SELECTED PROJECT DETAIL PANEL -->
+      <div class="detail-card" id="detailPanel">
+        <p class="detail-placeholder">Click a project to see more information here.</p>
+      </div>
+
+      <!-- FILTER BAR -->
+      <div class="filter-card">
+        <span class="filter-label">Filter</span>
+        <div class="filter-btns" id="filterBtns">
+          <!-- injected by JS from JSON categories -->
+        </div>
+      </div>
+
+      <!-- PROJECT GRID — single grid, button always last -->
+      <div class="project-grid" id="projectGrid">
+        <!-- all cards + show-more button injected by JS -->
+        <button class="show-more-btn prj-card" id="showMoreBtn">
+          <span id="showMoreLabel">＋ More Projects</span>
+        </button>
+      </div>
+
+    </div>
+
+    <footer class="footer">
+      <p id="footerTxt">© 2025 Jonah. All rights reserved.</p>
+    </footer>
+
+    <script src="prj.js" defer></script>
+  </body>
+   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/esri-leaflet@3.0.12/dist/esri-leaflet.js"></script>
+<script src="https://unpkg.com/shpjs@latest/dist/shp.min.js"></script>
+<script src="scripts/prj.js" defer></script>
+</html>

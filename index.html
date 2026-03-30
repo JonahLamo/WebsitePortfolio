@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home Page</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="scripts/index.css" />
+  </head>
+
+  <body>
+
+    <!-- Top nav bar -->
+    <header class="top-bar">
+      <a href="#about" class="top-link">About Me!</a>
+      <a href="projects.html" class="top-link top-right">Project Page</a>
+    </header>
+
+    <div class="page-wrapper">
+
+      <!-- ===== ABOUT SECTION ===== -->
+      <section class="card" id="about">
+        <div class="about-grid">
+          <div class="about-text">
+            <h1 id="aboutHeading">Descriptive Random Words About Me</h1>
+            <p id="aboutBasic" class="about-basic"></p>
+          </div>
+          <div class="photo-box">
+            <div class="photo-scroll" id="photoScroll">
+              <!-- Photos injected by JS -->
+              <div class="photo-placeholder">Photos,<br/>Can scroll<br/>a few</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== SKILLS SECTION ===== -->
+      <section class="card" id="skills">
+        <h2 class="section-title">Skills</h2>
+        <div class="skills-grid" id="skillsGrid">
+          <!-- Skill columns injected by JS -->
+        </div>
+      </section>
+
+      <!-- ===== EXPERIENCE SECTION ===== -->
+      <section class="card" id="exp">
+        <div class="exp-grid">
+          <div class="exp-col">
+            <h2 class="col-heading">Education</h2>
+            <ul id="eduList" class="plain-list"></ul>
+            <a href="#" class="resume-btn" id="resumeBtn">Download Resume</a>
+          </div>
+          <div class="exp-col">
+            <h2 class="col-heading">Work Experience</h2>
+            <ul id="workList" class="plain-list"></ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== CONTACT SECTION ===== -->
+      <section class="card" id="contact">
+        <h2 class="col-heading">Contact Me!</h2>
+        <div id="contactArea" class="contact-area">
+          <!-- Contact content injected by JS -->
+        </div>
+      </section>
+
+      <footer class="footer">
+        <p id="footerTxt">Footer</p>
+      </footer>
+
+    </div><!-- end .page-wrapper -->
+
+    <script src="scripts/index.js" defer></script>
+  </body>
+</html>
