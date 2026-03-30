@@ -127,14 +127,14 @@ a { color: inherit; text-decoration: none; }
 
 .detail-inner {
   display: grid;
-  grid-template-columns: 220px 1fr;
+  grid-template-columns: 500px 1fr;
   gap: 20px;
   align-items: start;
 }
 
 .detail-img {
   width: 100%;
-  height: 160px;
+  height: 500px;
   object-fit: cover;
   border: 2px solid var(--border);
   border-radius: var(--radius);
@@ -156,7 +156,7 @@ a { color: inherit; text-decoration: none; }
 
 .detail-body h2 {
   font-family: var(--font-display);
-  font-size: 1.5rem;
+  font-size: 2rem;
   margin-bottom: 6px;
 }
 
@@ -335,5 +335,9 @@ a { color: inherit; text-decoration: none; }
   .detail-inner { grid-template-columns: 1fr; }
 }
 @media (max-width: 420px) {
-  .project-grid { grid-template-columns: 1fr; }
+    .project-grid { grid-template-columns: 1fr; }
+
+    .detail-img{
+    height: 300px;
+    }
 }

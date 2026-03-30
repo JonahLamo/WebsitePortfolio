@@ -93,27 +93,9 @@ function populateAbout(data) {
 
 /* ---- EXPERIENCE ---- */
 function populateExperience(data) {
-  // Education list
-  const eduList = document.getElementById("eduList");
-  if (eduList && data.exp?.edu) {
-    data.exp.edu.forEach(item => {
-      const li = document.createElement("li");
-      li.textContent = item;
-      eduList.appendChild(li);
-    });
-  }
+  buildExpList(document.getElementById("eduList"), data.exp?.edu);
+  buildExpList(document.getElementById("workList"), data.exp?.work);
 
-  // Work experience list
-  const workList = document.getElementById("workList");
-  if (workList && data.exp?.work) {
-    data.exp.work.forEach(item => {
-      const li = document.createElement("li");
-      li.textContent = item;
-      workList.appendChild(li);
-    });
-  }
-
-  // Resume download link
   const resumeBtn = document.getElementById("resumeBtn");
   if (resumeBtn && data.resumeUrl) {
     resumeBtn.href = data.resumeUrl;
@@ -121,26 +103,89 @@ function populateExperience(data) {
   }
 }
 
+function buildExpList(listEl, items) {
+  if (!listEl || !items) return;
+  items.forEach(item => {
+    const li = document.createElement("li");
+
+    // Support both plain strings (legacy) and {title, details} objects
+    const title   = typeof item === "object" ? item.title   : item;
+    const details = typeof item === "object" ? item.details : null;
+
+    if (!details) {
+      li.textContent = title;
+      listEl.appendChild(li);
+      return;
+    }
+
+    const btn = document.createElement("button");
+    btn.classList.add("exp-toggle");
+    btn.setAttribute("aria-expanded", "false");
+    btn.innerHTML = `${title} <span class="skill-arrow">▸</span>`;
+
+    const panel = document.createElement("p");
+    panel.classList.add("exp-details");
+    panel.textContent = details;
+    panel.setAttribute("hidden", "");
+
+    btn.addEventListener("click", () => {
+      const expanded = btn.getAttribute("aria-expanded") === "true";
+      btn.setAttribute("aria-expanded", String(!expanded));
+      const arrow = btn.querySelector(".skill-arrow");
+      if (expanded) {
+        panel.setAttribute("hidden", "");
+        arrow.textContent = "▸";
+      } else {
+        panel.removeAttribute("hidden");
+        arrow.textContent = "▾";
+      }
+    });
+
+    li.appendChild(btn);
+    li.appendChild(panel);
+    listEl.appendChild(li);
+  });
+}
+
 /* ---- SKILLS ---- */
 function populateSkills(data) {
   const grid = document.getElementById("skillsGrid");
   if (!grid || !data.skills) return;
 
-  // Each key in data.skills becomes one column
+  // Each key in data.skills becomes one collapsible column
   Object.entries(data.skills).forEach(([category, items]) => {
     const col = document.createElement("div");
     col.classList.add("skill-col");
 
-    const heading = document.createElement("h3");
-    heading.textContent = capitalize(category);
-    col.appendChild(heading);
+    // Button acts as the toggle heading
+    const btn = document.createElement("button");
+    btn.classList.add("skill-toggle");
+    btn.setAttribute("aria-expanded", "false");
+    btn.innerHTML = `${capitalize(category)} <span class="skill-arrow">▸</span>`;
 
     const ul = document.createElement("ul");
+    ul.classList.add("skill-list");
+    ul.setAttribute("hidden", "");
     items.forEach(skill => {
       const li = document.createElement("li");
       li.textContent = skill;
       ul.appendChild(li);
     });
+
+    btn.addEventListener("click", () => {
+      const expanded = btn.getAttribute("aria-expanded") === "true";
+      btn.setAttribute("aria-expanded", String(!expanded));
+      const arrow = btn.querySelector(".skill-arrow");
+      if (expanded) {
+        ul.setAttribute("hidden", "");
+        arrow.textContent = "▸";
+      } else {
+        ul.removeAttribute("hidden");
+        arrow.textContent = "▾";
+      }
+    });
+
+    col.appendChild(btn);
     col.appendChild(ul);
     grid.appendChild(col);
   });
