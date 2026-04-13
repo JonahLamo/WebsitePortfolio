@@ -1,26 +1,26 @@
 {
   "categories": ["GIS", "Ecology", "Data Science", "Poster", "Conservation", "IoT", "Remote Sensing"],
+  "footer": "© 2025 Jonah. All rights reserved.",
   "projects": [
     {
-      "id": "prj1",
-      "title": "Oh Deer!: An Ethological Study on Local Deer Populations",
-      "featured": 0,
-      "categories": ["Ecology", "Poster"],
-      "thumbnail": "images/deer_thumbnail.png",
-      "image": "images/deer_poster.png",
+      "id": "prj7",
+      "title": "Freshwater Conservation Canada Analysis",
+      "featured": 1,
+      "categories": ["GIS", "Remote Sensing"],
+      "thumbnail": "images/FCChardPoster.png",
+      "image": "images/FCChardPoster.png",
       "mapEmbed": "",
-      "description": "A research project for my Animal Behaviour class that was looking at local deer populations feeding habits outside Okotoks, AB and a wild population near Longview, AB.",
-      "link": ""
-    },
-    {
-      "id": "prj2",
-      "title": "Alberta Invasive Species Council",
-      "featured": 3,
-      "categories": ["Ecology", "Conservation"],
-      "thumbnail": "images/lmaoidiot.jpg",
-      "image": "images/Lmaoidiot.jpg",
-      "mapEmbed": "",
-      "description": "Wrote a report for the Alberta Invasive Species Council on the potentially invasive Siberian Squill that could threaten the Western Blue Flag Iris.",
+      "leaflet": {
+        "center": [51.60, -114.80],
+        "zoom": 9,
+        "markers": [
+          { "latlng": [51.60, -114.80], "popup": "Elk Creek study site" }
+        ],
+        "shapefiles": [
+          { "path": "data/FCC-Detailed/25stream.geojson","label": "2025 Stream" }
+        ]
+      },
+      "description": "Designed an interactive Power BI dashboard summarising multi-year ecological monitoring data for Freshwater Conservation Canada at Elk Creek, allowing stakeholders to filter by species, year, and survey location.",
       "link": ""
     },
     {
@@ -31,29 +31,56 @@
       "thumbnail": "images/SL_map.jpg",
       "image": "images/SL_map.jpg",
       "mapEmbed": "",
-      "description": "A project on a theoretical solar farm at the Saddle Lake reserve in Northern Alberta that included basic ArcGIS tools, vector and rasters, DEMs, and the whole ArcGIS pro workflow.",
+      "leaflet": null,
+      "description": "A project on a theoretical solar farm at the Saddle Lake reserve in Northern Alberta. Covered ArcGIS Pro fundamentals including vector and raster analysis, DEMs, and a full spatial data workflow.",
+      "link": ""
+    },
+    {
+      "id": "prj2",
+      "title": "Alberta Invasive Species Council",
+      "featured": 3,
+      "categories": ["Ecology", "Conservation"],
+      "thumbnail": "images/lmaoidiot.jpg",
+      "image": "images/Lmaoidiot.jpg",
+      "mapEmbed": "",
+      "leaflet": null,
+      "description": "Wrote a report for the Alberta Invasive Species Council on the potentially invasive Siberian Squill and the threat it poses to the native Western Blue Flag Iris.",
+      "link": ""
+    },
+    {
+      "id": "prj1",
+      "title": "Oh Deer!: An Ethological Study on Local Deer Populations",
+      "featured": 0,
+      "categories": ["Ecology", "Poster"],
+      "thumbnail": "images/deer_thumbnail.png",
+      "image": "images/deer_poster.png",
+      "mapEmbed": "",
+      "leaflet": null,
+      "description": "A research project for Animal Behaviour examining local deer feeding habits outside Okotoks, AB and a wild population near Longview, AB.",
       "link": ""
     },
     {
       "id": "prj4",
-      "title": "Freshwater Conservation Canada Poster",
+      "title": "Freshwater Conservation Canada — Public Poster",
       "featured": 0,
       "categories": ["GIS", "Poster"],
       "thumbnail": "images/FCCEasyPoster.png",
       "image": "images/FCCEasyPoster.png",
       "mapEmbed": "",
-      "description": "Worked on a project for Freshwater Conservation Canada at Elk Creek and quantified their efforts. This poster is the simplified version focusing on the accessability and readability for anyone to read.",
+      "leaflet": null,
+      "description": "A simplified poster summarising the Elk Creek conservation project for a general audience, emphasising accessibility and readability over technical detail.",
       "link": ""
     },
     {
       "id": "prj5",
-      "title": "2026 Winter Olympics Poster",
+      "title": "2026 Winter Olympics Data Poster",
       "featured": 0,
       "categories": ["Poster", "Data Science"],
       "thumbnail": "images/OlympicsPoster.png",
       "image": "images/OlympicsPoster.png",
       "mapEmbed": "",
-      "description": "A data visualization poster created for the 2026 Milan-Cortina Winter Olympics.",
+      "leaflet": null,
+      "description": "A data visualisation poster created for the 2026 Milan-Cortina Winter Olympics, combining graphic design with statistical storytelling.",
       "link": ""
     },
     {
@@ -64,29 +91,8 @@
       "thumbnail": "images/robit.jpg",
       "image": "images/robit.jpg",
       "mapEmbed": "",
-      "description": "Created a robotic car about 5 years ago that stops x amount of cm away from a light. The official image is lost along with the robot.",
-      "link": ""
-    },
-    {
-      "id": "prj7",
-      "title": "Freshwater Conservation Canada Analysis",
-      "featured": 1,
-      "categories": ["GIS", "Remote Sensing"],
-      "thumbnail": "images/FCChardPoster.png",
-      "image": "images/FCChardPoster.png",
-      "mapEmbed": "",
-      "description": "Designed an interactive Power BI dashboard summarising multi-year ecological monitoring data, allowing stakeholders to filter by species, year, and survey location.",
-      "link": ""
-    },
-    {
-      "id": "prjX",
-      "title": "NAME",
-      "featured": 0,
-      "categories": ["GIS"],
-      "thumbnail": "images/FCChardPoster.png",
-      "image": "images/FCChardPoster.png",
-      "mapEmbed": "",
-      "description": "Description",
+      "leaflet": null,
+      "description": "Built a robotic car that stops a set distance from a light source using proximity sensors. An early foray into hardware programming and IoT — the robot has since been lost to time.",
       "link": ""
     }
   ]

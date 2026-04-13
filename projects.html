@@ -3,38 +3,31 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Projects Page</title>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <title>Projects</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
     <link rel="stylesheet" href="Scripts/prj.css" />
   </head>
 
   <body>
 
-    <!-- Top nav bar -->
     <header class="top-bar">
-      <span class="top-link">Projects</span>
-      <a href="index.html" class="top-link">About Page</a>
+      <span class="top-link active-page">Projects</span>
+      <a href="index.html" class="top-link">About Me</a>
     </header>
 
     <div class="page-wrapper">
 
-    
-      <!-- SELECTED PROJECT DETAIL PANEL -->
-      <div class="detail-card" id="detailPanel">
-        <p class="detail-placeholder">Click a project to see more information here.</p>
-      </div>
-
       <!-- FILTER BAR -->
       <div class="filter-card">
-        <span class="filter-label">Filter</span>
-        <div class="filter-btns" id="filterBtns">
-          <!-- injected by JS from JSON categories -->
-        </div>
+        <span class="filter-label">Filter by category</span>
+        <div class="filter-btns" id="filterBtns"></div>
       </div>
 
-      <!-- PROJECT GRID — single grid, button always last -->
+      <!-- PROJECT GRID -->
       <div class="project-grid" id="projectGrid">
-        <!-- all cards + show-more button injected by JS -->
         <button class="show-more-btn prj-card" id="showMoreBtn">
           <span id="showMoreLabel">＋ More Projects</span>
         </button>
@@ -42,13 +35,19 @@
 
     </div>
 
+    <!-- PROJECT DETAIL OVERLAY -->
+    <div class="detail-overlay" id="detailOverlay" aria-hidden="true">
+      <div class="detail-panel" id="detailPanel">
+        <button class="detail-close" id="detailClose" aria-label="Close">&#x2715;</button>
+        <div id="detailContent"></div>
+      </div>
+    </div>
+
     <footer class="footer">
-      <p id="footerTxt">Foot 1</p>
+      <p id="footerTxt">© 2025 Jonah. All rights reserved.</p>
     </footer>
 
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="https://unpkg.com/esri-leaflet@3.0.12/dist/esri-leaflet.js"></script>
-    <script src="https://unpkg.com/shpjs@latest/dist/shp.min.js"></script>
-    <script src="Scripts/prj.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+    <script src="Scripts/prj.js"></script>
   </body>
 </html>

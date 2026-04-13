@@ -2,26 +2,25 @@ const JSON_PATH = "Jasons/prj.json";
 
 let allProjects   = [];
 let allCategories = [];
-let activeFilters = new Set(); // multi-select set
+let activeFilters = new Set();
+let leafletMap    = null;
 
 fetch(JSON_PATH)
   .then(res => res.json())
   .then(data => {
     allProjects   = data.projects   || [];
     allCategories = data.categories || [];
-
     buildFilters();
-    renderGrids(getSortedProjects(allProjects));
-
-    // Auto-load the featured:1 project in the detail panel
-    const top1 = allProjects.find(p => p.featured === 1);
-    if (top1) showDetail(top1);
+    renderGrid(getSortedProjects(allProjects));
+    if (data.footer) {
+      const el = document.getElementById("footerTxt");
+      if (el) el.textContent = data.footer;
+    }
   })
   .catch(err => console.error("Failed to load prj.json:", err));
 
 /* ================================================
-   SORTING — featured projects (1,2,3) come first,
-   then the rest in their original JSON order
+   SORTING
    ================================================ */
 function getSortedProjects(projects) {
   const featured = projects
@@ -32,51 +31,38 @@ function getSortedProjects(projects) {
 }
 
 /* ================================================
-   FILTERS — smart: only show buttons that have
-   at least one project matching ALL active filters
+   FILTERS
    ================================================ */
 function buildFilters() {
   const container = document.getElementById("filterBtns");
   container.innerHTML = "";
 
-  // "All" reset button
   const allBtn = document.createElement("button");
   allBtn.className = "filter-btn" + (activeFilters.size === 0 ? " active" : "");
   allBtn.textContent = "All";
   allBtn.addEventListener("click", () => {
     activeFilters.clear();
     buildFilters();
-    renderGrids(getSortedProjects(allProjects));
-    clearDetail();
+    renderGrid(getSortedProjects(allProjects));
   });
   container.appendChild(allBtn);
 
-  // One button per category — only shown if it produces results
   allCategories.forEach(cat => {
-    // Would adding this cat to current active filters return any projects?
     const testSet = new Set([...activeFilters, cat]);
     const wouldMatch = allProjects.filter(p =>
       [...testSet].every(f => p.categories.includes(f))
     );
-    if (wouldMatch.length === 0) return; // dead end — hide this button
+    if (wouldMatch.length === 0) return;
 
     const btn = document.createElement("button");
-    const isActive = activeFilters.has(cat);
-    btn.className = "filter-btn" + (isActive ? " active" : "");
+    btn.className = "filter-btn" + (activeFilters.has(cat) ? " active" : "");
     btn.textContent = cat;
-
     btn.addEventListener("click", () => {
-      if (activeFilters.has(cat)) {
-        activeFilters.delete(cat);
-      } else {
-        activeFilters.add(cat);
-      }
-      buildFilters(); // rebuild to hide dead-end buttons
-      const filtered = getFiltered();
-      renderGrids(getSortedProjects(filtered));
-      clearDetail();
+      if (activeFilters.has(cat)) activeFilters.delete(cat);
+      else activeFilters.add(cat);
+      buildFilters();
+      renderGrid(getSortedProjects(getFiltered()));
     });
-
     container.appendChild(btn);
   });
 }
@@ -91,25 +77,20 @@ function getFiltered() {
 /* ================================================
    RENDER GRID
    ================================================ */
-function renderGrids(projects) {
+function renderGrid(projects) {
   const grid      = document.getElementById("projectGrid");
   const moreBtn   = document.getElementById("showMoreBtn");
   const moreLabel = document.getElementById("showMoreLabel");
 
-  // Remove all cards but keep the button
   Array.from(grid.children).forEach(child => {
     if (child !== moreBtn) child.remove();
   });
-
   moreBtn.classList.remove("expanded");
 
   const top  = projects.slice(0, 3);
   const rest = projects.slice(3);
 
-  // Insert top 3 before the button
   top.forEach(p => grid.insertBefore(makeCard(p), moreBtn));
-
-  // Insert extra cards (hidden) before the button
   rest.forEach(p => {
     const card = makeCard(p);
     card.classList.add("prj-hidden");
@@ -132,12 +113,19 @@ function makeCard(project) {
   card.className = "prj-card";
   card.dataset.id = project.id;
 
-  // Featured badge
   if (project.featured > 0) {
     const badge = document.createElement("div");
     badge.className = "prj-badge";
     badge.textContent = "Featured";
     card.appendChild(badge);
+  }
+
+  // Small "Map" indicator if the project has an interactive map
+  if (project.leaflet || project.mapEmbed) {
+    const mapBadge = document.createElement("div");
+    mapBadge.className = "prj-map-badge";
+    mapBadge.textContent = project.leaflet ? "Live Map" : "Map";
+    card.appendChild(mapBadge);
   }
 
   if (project.thumbnail) {
@@ -157,48 +145,70 @@ function makeCard(project) {
   info.className = "prj-info";
   info.innerHTML =
     "<h3>" + project.title + "</h3>" +
-    "<span class='prj-cat'>" + project.categories.join(", ") + "</span>";
+    "<span class='prj-cat'>" + project.categories.join(" · ") + "</span>";
   card.appendChild(info);
 
-  card.addEventListener("click", () => {
-    document.querySelectorAll(".prj-card").forEach(c => c.classList.remove("selected"));
-    card.classList.add("selected");
-    showDetail(project);
-    document.getElementById("detailPanel").scrollIntoView({ behavior: "smooth", block: "nearest" });
-  });
-
+  card.addEventListener("click", () => showDetail(project));
   return card;
 }
 
 /* ================================================
-   DETAIL PANEL
+   DETAIL OVERLAY
    ================================================ */
 function showDetail(project) {
-  const panel = document.getElementById("detailPanel");
-  panel.innerHTML = "";
+  const overlay = document.getElementById("detailOverlay");
+  const content = document.getElementById("detailContent");
+
+  // Highlight selected card
+  document.querySelectorAll(".prj-card").forEach(c => c.classList.remove("selected"));
+  const match = document.querySelector(".prj-card[data-id='" + project.id + "']");
+  if (match) match.classList.add("selected");
+
+  // Destroy previous Leaflet instance if any
+  if (leafletMap) {
+    leafletMap.remove();
+    leafletMap = null;
+  }
+
+  content.innerHTML = "";
 
   const inner = document.createElement("div");
   inner.className = "detail-inner";
 
-  if (project.mapEmbed) {
+  /* --- LEFT: media --- */
+  const mediaWrap = document.createElement("div");
+  mediaWrap.className = "detail-media";
+
+  if (project.leaflet) {
+    const mapDiv = document.createElement("div");
+    mapDiv.id = "leafletMap";
+    mapDiv.className = "detail-map";
+    mapDiv.style.width = "100%";
+    mapDiv.style.height = "460px";
+    mediaWrap.appendChild(mapDiv);
+  } else if (project.mapEmbed) {
+    // ArcGIS StoryMap or other iframe embed
     const frame = document.createElement("iframe");
     frame.src = project.mapEmbed;
-    frame.style.cssText = "width:100%;height:200px;border:none;border-radius:8px;";
+    frame.className = "detail-map";
     frame.allowFullscreen = true;
-    inner.appendChild(frame);
+    mediaWrap.appendChild(frame);
   } else if (project.image) {
     const img = document.createElement("img");
     img.src = project.image;
     img.alt = project.title;
     img.className = "detail-img";
-    inner.appendChild(img);
+    mediaWrap.appendChild(img);
   } else {
     const ph = document.createElement("div");
     ph.className = "detail-img-placeholder";
     ph.textContent = "No image";
-    inner.appendChild(ph);
+    mediaWrap.appendChild(ph);
   }
 
+  inner.appendChild(mediaWrap);
+
+  /* --- RIGHT: text body --- */
   const body = document.createElement("div");
   body.className = "detail-body";
   body.innerHTML = "<h2>" + project.title + "</h2>";
@@ -227,18 +237,142 @@ function showDetail(project) {
   }
 
   inner.appendChild(body);
-  panel.appendChild(inner);
+  content.appendChild(inner);
 
-  // Highlight the matching card if visible
+  // Open overlay
+  overlay.setAttribute("aria-hidden", "false");
+  overlay.classList.add("open");
+  document.body.style.overflow = "hidden";
+
+  // Init Leaflet AFTER overlay transition completes (300ms matches CSS transition)
+  if (project.leaflet) {
+    setTimeout(() => {
+      const cfg = project.leaflet;
+
+      const mapEl = document.getElementById("leafletMap");
+      console.log("Map div found:", mapEl, "offsetHeight:", mapEl ? mapEl.offsetHeight : "N/A");
+
+      leafletMap = L.map("leafletMap", { preferCanvas: true }).setView(
+        cfg.center || [52.0447, -114.0719],
+        cfg.zoom   || 6
+      );
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution: "&copy; OpenStreetMap contributors"
+      }).addTo(leafletMap);
+
+      if (Array.isArray(cfg.markers)) {
+        cfg.markers.forEach(m => {
+          const marker = L.marker(m.latlng).addTo(leafletMap);
+          if (m.popup) marker.bindPopup(m.popup);
+        });
+      }
+
+      requestAnimationFrame(() => {
+        leafletMap.invalidateSize();
+        console.log("invalidateSize called, map size:", leafletMap.getSize());
+
+        if (Array.isArray(cfg.shapefiles) && cfg.shapefiles.length > 0) {
+          cfg.shapefiles.forEach((shpCfg, i) => {
+            loadShapefileFromPath(shpCfg.path, shpCfg.label || shpCfg.path, i, cfg.shapefiles.length);
+          });
+        }
+      });
+    }, 350);
+  }
+}
+
+/* ================================================
+   SHAPEFILE — auto-load from path
+   ================================================ */
+
+const LAYER_COLORS = [
+  "#2d6a3f", "#a85c1a", "#1a5fa8", "#8b2da8",
+  "#a8172d", "#1a8ba8", "#6b7a1a", "#a8681a"
+];
+
+function loadShapefileFromPath(path, label, colorIdx, total) {
+  fetch(path)
+    .then(res => {
+      if (!res.ok) throw new Error("Could not fetch " + path);
+      return res.json();
+    })
+    .then(geojson => {
+      const color = LAYER_COLORS[colorIdx % LAYER_COLORS.length];
+
+      const layer = L.geoJSON(geojson, {
+        style: {
+          color:       color,
+          weight:      2,
+          opacity:     0.9,
+          fillColor:   color,
+          fillOpacity: 0.18
+        },
+        pointToLayer: (feature, latlng) =>
+          L.circleMarker(latlng, {
+            radius:      6,
+            color:       color,
+            weight:      2,
+            fillColor:   color,
+            fillOpacity: 0.7
+          }),
+        onEachFeature: (feature, lyr) => {
+          if (feature.properties) {
+            const rows = Object.entries(feature.properties)
+              .map(([k, v]) =>
+                `<tr>
+                  <td style="padding:2px 8px 2px 0;color:#555;font-size:0.78rem;white-space:nowrap">${k}</td>
+                  <td style="font-size:0.78rem">${v ?? ""}</td>
+                </tr>`)
+              .join("");
+            lyr.bindPopup(
+              `<strong style="font-size:0.82rem">${label}</strong><table style="margin-top:4px">${rows}</table>`,
+              { maxWidth: 300 }
+            );
+          }
+        }
+      }).addTo(leafletMap);
+
+      // After the last layer loads, fit the map to all layers combined
+      if (colorIdx === total - 1) {
+        try {
+          const allLayers = [];
+          leafletMap.eachLayer(l => { if (l.getBounds) allLayers.push(l); });
+          if (allLayers.length > 0) {
+            const combined = allLayers.reduce(
+              (bounds, l) => bounds.extend(l.getBounds()),
+              allLayers[0].getBounds()
+            );
+            leafletMap.fitBounds(combined, { padding: [24, 24] });
+          }
+        } catch(_) {}
+      }
+    })
+    .catch(err => console.error("Shapefile load error (" + path + "):", err));
+}
+
+function closeDetail() {
+  const overlay = document.getElementById("detailOverlay");
+  overlay.classList.remove("open");
+  overlay.setAttribute("aria-hidden", "true");
+  document.body.style.overflow = "";
   document.querySelectorAll(".prj-card").forEach(c => c.classList.remove("selected"));
-  const match = document.querySelector(".prj-card[data-id='" + project.id + "']");
-  if (match) match.classList.add("selected");
+  if (leafletMap) {
+    leafletMap.remove();
+    leafletMap = null;
+  }
 }
 
-function clearDetail() {
-  document.getElementById("detailPanel").innerHTML =
-    "<p class='detail-placeholder'>Click a project to see more information here.</p>";
-}
+document.getElementById("detailClose").addEventListener("click", closeDetail);
+
+// Close on overlay background click
+document.getElementById("detailOverlay").addEventListener("click", e => {
+  if (e.target === document.getElementById("detailOverlay")) closeDetail();
+});
+
+// Close on Escape key
+document.addEventListener("keydown", e => {
+  if (e.key === "Escape") closeDetail();
+});
 
 /* ================================================
    SHOW MORE BUTTON

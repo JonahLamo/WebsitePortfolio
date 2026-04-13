@@ -1,4 +1,3 @@
-// Adjust this path to wherever your JSON lives
 const JSON_PATH = "Jasons/index.json";
 
 fetch(JSON_PATH)
@@ -20,24 +19,19 @@ function populateAbout(data) {
   const basic = document.getElementById("aboutBasic");
   if (basic && data.basicInfo) basic.textContent = data.basicInfo;
 
-  // Build carousel
   const container = document.getElementById("photoScroll");
   if (!container) return;
 
   const photos = Array.isArray(data.photos) && data.photos.length > 0 ? data.photos : null;
-  if (!photos) return; // leave placeholder in place
+  if (!photos) return;
 
-  container.innerHTML = ""; // clear placeholder
-
-  // Pick a random starting index on each page load
+  container.innerHTML = "";
   const startIndex = Math.floor(Math.random() * photos.length);
 
-  // Create slides
   photos.forEach((src, i) => {
     const slide = document.createElement("div");
     slide.classList.add("carousel-slide");
     if (i === startIndex) slide.classList.add("active");
-
     const img = document.createElement("img");
     img.src = src;
     img.alt = "Photo " + (i + 1);
@@ -45,7 +39,6 @@ function populateAbout(data) {
     container.appendChild(slide);
   });
 
-  // Prev / Next buttons
   const prev = document.createElement("button");
   prev.className = "carousel-btn prev";
   prev.setAttribute("aria-label", "Previous photo");
@@ -59,7 +52,6 @@ function populateAbout(data) {
   container.appendChild(prev);
   container.appendChild(next);
 
-  // Dot indicators — appended AFTER the container box
   const dotsRow = document.createElement("div");
   dotsRow.className = "carousel-dots";
   photos.forEach((_, i) => {
@@ -70,7 +62,6 @@ function populateAbout(data) {
   });
   container.parentElement.appendChild(dotsRow);
 
-  // State
   let current = startIndex;
   const slides = container.querySelectorAll(".carousel-slide");
   const dots   = dotsRow.querySelectorAll(".carousel-dot");
@@ -86,8 +77,6 @@ function populateAbout(data) {
   prev.addEventListener("click", () => goTo(current - 1));
   next.addEventListener("click", () => goTo(current + 1));
   dots.forEach((dot, i) => dot.addEventListener("click", () => goTo(i)));
-
-  // Auto-advance every 4 seconds
   setInterval(() => goTo(current + 1), 4000);
 }
 
@@ -107,8 +96,6 @@ function buildExpList(listEl, items) {
   if (!listEl || !items) return;
   items.forEach(item => {
     const li = document.createElement("li");
-
-    // Support both plain strings (legacy) and {title, details} objects
     const title   = typeof item === "object" ? item.title   : item;
     const details = typeof item === "object" ? item.details : null;
 
@@ -152,12 +139,10 @@ function populateSkills(data) {
   const grid = document.getElementById("skillsGrid");
   if (!grid || !data.skills) return;
 
-  // Each key in data.skills becomes one collapsible column
   Object.entries(data.skills).forEach(([category, items]) => {
     const col = document.createElement("div");
     col.classList.add("skill-col");
 
-    // Button acts as the toggle heading
     const btn = document.createElement("button");
     btn.classList.add("skill-toggle");
     btn.setAttribute("aria-expanded", "false");
@@ -196,30 +181,28 @@ function populateContact(data) {
   const area = document.getElementById("contactArea");
   if (!area) return;
 
-  // If a contact intro blurb is in the JSON, show it
   if (data.contactIntro) {
     const intro = document.createElement("p");
     intro.textContent = data.contactIntro;
-    intro.style.marginBottom = "12px";
+    intro.style.marginBottom = "16px";
+    intro.style.fontSize = "1rem";
+    intro.style.color = "#3a3a3a";
     area.appendChild(intro);
   }
 
-  // Build a simple email form / prompt
-  const form = document.createElement("div"); // not <form> to avoid default submit
-  form.innerHTML = `
-    <div style="display:flex;flex-direction:column;gap:10px;max-width:420px;">
+  /* Use a div wrapper — CSS handles layout via .contact-area descendants */
+  area.insertAdjacentHTML("beforeend", `
+    <div>
       <label for="contactName">Name</label>
       <input type="text" id="contactName" placeholder="Your name" />
       <label for="contactEmail">Email</label>
       <input type="email" id="contactEmail" placeholder="your@email.com" />
       <label for="contactMsg">Message</label>
       <textarea id="contactMsg" rows="4" placeholder="Say hello..."></textarea>
-      <button id="contactSend">Send</button>
+      <button id="contactSend">Send Message</button>
     </div>
-  `;
-  area.appendChild(form);
+  `);
 
-  // Wire up send button — opens default mail client with prefilled body
   const sendBtn = document.getElementById("contactSend");
   if (sendBtn) {
     const emailTo = data.contactEmail || "";
@@ -237,9 +220,7 @@ function populateContact(data) {
 /* ---- FOOTER ---- */
 function populateFooter(data) {
   const foot = document.getElementById("footerTxt");
-  if (foot && data.footer) {
-    foot.textContent = data.footer;
-  }
+  if (foot && data.footer) foot.textContent = data.footer;
 }
 
 /* ---- HELPERS ---- */

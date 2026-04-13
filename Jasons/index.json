@@ -1,42 +1,42 @@
 {
-  "aboutHeading": "Ecologist, GIS Analysit, Data Scientist",
-  "basicInfo": "Hello and Welcome! I am a graduated and Spataial Data Scientist eager to get to wok.",
-  "photos": ["images/tree.jpg","images/Lights.jpeg", "images/Camp.PNG","images/Expo.jpg"],
+  "aboutHeading": "Ecologist, GIS Analyst, Data Scientist",
+  "basicInfo": "Hello and welcome! I am a graduated Spatial Data Scientist eager to get to work. My background spans ecology, mathematics, and geospatial analysis — bridging the natural world with data-driven insight.",
+  "photos": ["images/tree.jpg", "images/Lights.jpeg", "images/Camp.PNG", "images/Expo.jpg"],
   "resumeUrl": "images/JonahResume.pdf",
   "contactEmail": "Jonah1350@outlook.com",
-  "contactIntro": "Email Prompter — feel free to reach out!",
-  "footer": "© 2025 Your Name. All rights reserved.",
+  "contactIntro": "Have a project in mind or want to connect? Fill out the form below and I'll get back to you.",
+  "footer": "© 2025 Jonah. All rights reserved.",
   "exp": {
     "edu": [
       {
-        "title": "Post Graduate Certificate, 2025-2026",
+        "title": "Post Graduate Certificate — 2025–2026",
         "details": "Mount Royal University. Spatial Data Science. Covers GIS analysis, remote sensing, and spatial data workflows."
       },
       {
-        "title": "Bachelor of Science, 2021-2025",
-        "details": "Mount Royal University. Graduated 2025. Concentrating in Biology and Mathammatics. Not quite a minor and not quite a major, but more flexability in what I wanted to make it, so I speacilizaed it in Ecology."
+        "title": "Bachelor of Science — 2021–2025",
+        "details": "Mount Royal University. Graduated 2025. Concentrated in Biology and Mathematics with a self-directed specialization in Ecology, allowing flexibility to tailor coursework around ecological systems and quantitative methods."
       }
     ],
     "work": [
       {
         "title": "Researcher in Quantitative Analysis",
-        "details": "Mount Royal University. Conducted quantitative research projects, applying statistical methods and data analysis techniques."
+        "details": "Mount Royal University. Conducted quantitative research projects, applying statistical methods and data analysis techniques to biological and environmental datasets."
       },
       {
         "title": "GIS Research Project",
-        "details": "Freshwater Conservation Canada. Performed GIS analysis to support freshwater conservation initiatives across Canada."
+        "details": "Freshwater Conservation Canada. Performed GIS analysis to support freshwater conservation initiatives across Canada, producing spatial datasets and maps for stakeholder reporting."
       },
       {
         "title": "Data and GIS Analysis Project",
-        "details": "Miistakis Institute. Developed spatial datasets and GIS workflows to support environmental research at the Miistakis Institute."
+        "details": "Miistakis Institute. Developed spatial datasets and GIS workflows to support environmental research, contributing to land-use and conservation planning initiatives."
       }
     ]
   },
   "skills": {
-    "Programming": ["Python", "R","C#","SQL","JavaScript"],
-    "GIS & Remote Sensing": ["ArcGIS Pro", "ArcGIS Online","Field Maps","Survey123", "StoryMaps", "Remote Sensing"],
+    "Programming": ["Python", "R", "C#", "SQL", "JavaScript"],
+    "GIS & Remote Sensing": ["ArcGIS Pro", "ArcGIS Online", "Field Maps", "Survey123", "StoryMaps", "Remote Sensing"],
     "Web Development": ["HTML", "CSS"],
-    "Software": ["Microsoft Office,", "Power BI"],
-    "Field Skills": ["Species Identification,", "GPS and navigation","Habitat Sampling"]
+    "Software": ["Microsoft Office", "Power BI"],
+    "Field Skills": ["Species Identification", "GPS & Navigation", "Habitat Sampling"]
   }
 }
