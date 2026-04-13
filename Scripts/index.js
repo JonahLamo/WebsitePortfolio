@@ -80,6 +80,27 @@ function populateAbout(data) {
   setInterval(() => goTo(current + 1), 4000);
 }
 
+const linkButton = document.getElementById("linkbutt"); 
+if (linkButton) {
+  linkButton.textContent = "LinkedIn";
+  linkButton.style.padding = "8px 16px";
+  linkButton.style.backgroundColor = "#0077b5";
+  linkButton.style.color = "#fff";
+  linkButton.style.borderRadius = "4px";
+  linkButton.style.textDecoration = "none";
+}
+
+const gitButton = document.getElementById("gitbutt");
+if (gitButton) {
+  gitButton.textContent = "GitHub";
+  gitButton.style.padding = "8px 16px";
+  gitButton.style.backgroundColor = "#333";
+  gitButton.style.color = "#fff";
+  gitButton.style.borderRadius = "4px";
+  gitButton.style.textDecoration = "none";
+}
+
+
 /* ---- EXPERIENCE ---- */
 function populateExperience(data) {
   buildExpList(document.getElementById("eduList"), data.exp?.edu);
@@ -145,12 +166,11 @@ function populateSkills(data) {
 
     const btn = document.createElement("button");
     btn.classList.add("skill-toggle");
-    btn.setAttribute("aria-expanded", "false");
+    btn.setAttribute("aria-expanded", "true");
     btn.innerHTML = `${capitalize(category)} <span class="skill-arrow">▸</span>`;
 
     const ul = document.createElement("ul");
     ul.classList.add("skill-list");
-    ul.setAttribute("hidden", "");
     items.forEach(skill => {
       const li = document.createElement("li");
       li.textContent = skill;

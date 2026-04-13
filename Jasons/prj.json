@@ -1,5 +1,5 @@
 {
-  "categories": ["GIS", "Ecology", "Data Science", "Poster", "Conservation", "IoT", "Remote Sensing"],
+  "categories": ["GIS", "Ecology", "Data Science", "Poster", "Conservation", "IoT", "Remote Sensing", "Storymaps"],
   "footer": "© 2025 Jonah. All rights reserved.",
   "projects": [
     {
@@ -94,6 +94,55 @@
       "leaflet": null,
       "description": "Built a robotic car that stops a set distance from a light source using proximity sensors. An early foray into hardware programming and IoT — the robot has since been lost to time.",
       "link": ""
+    },
+    {
+      "id": "prj7",
+      "title": "Urban Expansion in Calgary 2000-2025",
+      "featured": 0,
+      "categories": ["Storymaps", "GIS"],
+      "thumbnail": "images/calgaryStorymap.png",
+      "image": "images/calgaryStorymap.png",
+      "mapEmbed": "https://storymaps.arcgis.com/stories/afb6223db78249c99779bfd7b20db50d",
+      "leaflet": null,
+      "description": "Using Google Earth Engine to download images of Calgary, AB. These were then examined to see the expansion of urban areas around the city from 2000 to 2025.",
+      "link": "https://storymaps.arcgis.com/stories/afb6223db78249c99779bfd7b20db50d"
+    },
+    {
+      "id": "prj8",
+      "title": "Cooling Calgary",
+      "featured": 0,
+      "categories": ["Storymaps", "GIS"],
+      "thumbnail": "images/coolingCalgary.png",
+      "image": "images/coolingCalgary.png",
+      "mapEmbed": "https://storymaps.arcgis.com/stories/ad52b06e6cd04203ade920dc0b725877",
+      "leaflet": null,
+      "description": "This was a project to examine where hotspots in Calgary are. It was looking at which areas were experincing the highest land suface temperature and the least in 2022 and comparing it to 2015.",
+      "link": "https://storymaps.arcgis.com/stories/ad52b06e6cd04203ade920dc0b725877"
+    },
+    {
+      "id": "prj9",
+      "title": "Quantifying Local Stream Restoration",
+      "featured": 0,
+      "categories": ["Storymaps", "GIS"],
+      "thumbnail": "images/FCCPresentation.png",
+      "image": "images/FCCPresentation.png",
+      "mapEmbed": "https://storymaps.arcgis.com/briefings/aa826d8f70d743ef8101900e81c069ad",
+      "leaflet": null,
+      "description": "This was a presentation on quantifying the success of Freshwater Conservation Canada's restoration efforts at Elk Creek, AB. It was made for a general audience and was designed to be easily digestible and visually engaging.",
+      "link": "https://storymaps.arcgis.com/briefings/aa826d8f70d743ef8101900e81c069ad"
+    },
+    {
+      "id": "prj10",
+      "title": "Traffic Patterns in Calgary",
+      "featured": 0,
+      "categories": ["Data Science", "GIS"],
+      "thumbnail": "images/FCCPresentation.png",
+      "image": null,
+      "mapEmbed": null,
+      "htmlEmbed": "data/traffic_dashboard.html",
+      "leaflet": null,
+      "description": "A live web scraping dashboard built with Python, visualising real-time traffic data in Calgary. The dashboard includes interactive maps and charts to help users understand current traffic conditions.",
+      "link": "data/traffic_dashboard.html"
     }
   ]
 }

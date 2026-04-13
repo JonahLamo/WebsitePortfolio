@@ -258,7 +258,7 @@ a { color: inherit; text-decoration: none; }
 .detail-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(40, 50, 38, 0.72);
+  background: rgba(40, 50, 38, 0.78);
   z-index: 300;
   display: flex;
   align-items: flex-end;
@@ -277,14 +277,14 @@ a { color: inherit; text-decoration: none; }
   border-top: 4px solid var(--accent);
   border-radius: var(--radius) var(--radius) 0 0;
   width: 100%;
-  max-width: 1400px;
-  max-height: 88vh;
+  max-width: 1600px;
+  max-height: 94vh;
   overflow-y: auto;
-  padding: 32px 5% 48px;
+  padding: 32px 4% 48px;
   position: relative;
   transform: translateY(40px);
   transition: transform 0.3s ease;
-  box-shadow: 0 -8px 40px rgba(0,0,0,0.35);
+  box-shadow: 0 -8px 40px rgba(0,0,0,0.45);
 }
 .detail-overlay.open .detail-panel {
   transform: translateY(0);
@@ -297,31 +297,118 @@ a { color: inherit; text-decoration: none; }
   background: transparent;
   border: 1px solid var(--border-soft);
   border-radius: 50%;
-  width: 32px;
-  height: 32px;
-  font-size: 0.9rem;
+  width: 36px;
+  height: 36px;
+  font-size: 1rem;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: background 0.2s;
   color: var(--text-dark);
+  z-index: 10;
 }
-.detail-close:hover { background: rgba(44,44,44,0.1); }
+.detail-close:hover { background: rgba(44,44,44,0.12); }
 
-/* Detail inner layout */
+/* Detail inner layout — stacked: text header on top, media below */
 .detail-inner {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 32px;
-  align-items: start;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
 }
 
+/* Text header row (title + tags + description + link) */
+.detail-body {
+  padding-right: 48px; /* room for close button */
+}
+
+.detail-body h2 {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  margin-bottom: 10px;
+  line-height: 1.25;
+}
+
+.detail-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.detail-tag {
+  background: rgba(96,153,102,0.18);
+  border: 1px solid rgba(96,153,102,0.4);
+  border-radius: 20px;
+  padding: 2px 12px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--accent-dark);
+}
+
+.detail-body p {
+  font-size: 0.95rem;
+  color: #444;
+  line-height: 1.7;
+  max-width: 900px;
+  margin-bottom: 14px;
+}
+
+.detail-link {
+  display: inline-block;
+  background: var(--accent-dark);
+  color: var(--text-light);
+  padding: 7px 20px;
+  border-radius: 20px;
+  font-weight: 700;
+  font-size: 0.84rem;
+  letter-spacing: 0.04em;
+  transition: background 0.2s;
+}
+.detail-link:hover { background: var(--accent); }
+
+/* Media section — full width below text */
 .detail-media {
   border-radius: var(--radius);
-  overflow: hidden;
   border: 1px solid var(--border-soft);
   box-shadow: var(--shadow-card);
+  width: 100%;
+  overflow: hidden;
+}
+
+/* Image wrapper — no height cap, grows with the image */
+.detail-media.is-image {
+  overflow: visible;
+  background: #e8e0c8;
+}
+
+/* Image fits fully — no cropping, scrolls if poster is tall */
+.detail-img {
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  display: block;
+  object-fit: contain;
+}
+
+.detail-img-placeholder {
+  width: 100%;
+  height: 300px;
+  background: #d4c9a8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  color: #888;
+}
+
+.detail-map {
+  width: 100%;
+  height: 580px;
+  border: none;
+  display: block;
 }
 
 /* =============================================
@@ -349,9 +436,10 @@ a { color: inherit; text-decoration: none; }
 }
 @media (max-width: 700px) {
   .project-grid { grid-template-columns: repeat(2, 1fr); }
-  .detail-inner { grid-template-columns: 1fr; }
-  .detail-img, .detail-map { height: 280px; }
+  .detail-img, .detail-img-placeholder { height: 280px; }
+  .detail-map { height: 320px; }
   .detail-panel { padding: 24px 4% 36px; }
+  .detail-body h2 { font-size: 1.2rem; }
 }
 @media (max-width: 420px) {
   .project-grid { grid-template-columns: 1fr; }

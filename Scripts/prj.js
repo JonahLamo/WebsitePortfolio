@@ -121,10 +121,10 @@ function makeCard(project) {
   }
 
   // Small "Map" indicator if the project has an interactive map
-  if (project.leaflet || project.mapEmbed) {
+  if (project.leaflet || project.mapEmbed || project.htmlEmbed) {
     const mapBadge = document.createElement("div");
     mapBadge.className = "prj-map-badge";
-    mapBadge.textContent = project.leaflet ? "Live Map" : "Map";
+    mapBadge.textContent = project.leaflet ? "Live Map" : project.htmlEmbed ? "Interactive" : "Map";
     card.appendChild(mapBadge);
   }
 
@@ -175,40 +175,7 @@ function showDetail(project) {
   const inner = document.createElement("div");
   inner.className = "detail-inner";
 
-  /* --- LEFT: media --- */
-  const mediaWrap = document.createElement("div");
-  mediaWrap.className = "detail-media";
-
-  if (project.leaflet) {
-    const mapDiv = document.createElement("div");
-    mapDiv.id = "leafletMap";
-    mapDiv.className = "detail-map";
-    mapDiv.style.width = "100%";
-    mapDiv.style.height = "460px";
-    mediaWrap.appendChild(mapDiv);
-  } else if (project.mapEmbed) {
-    // ArcGIS StoryMap or other iframe embed
-    const frame = document.createElement("iframe");
-    frame.src = project.mapEmbed;
-    frame.className = "detail-map";
-    frame.allowFullscreen = true;
-    mediaWrap.appendChild(frame);
-  } else if (project.image) {
-    const img = document.createElement("img");
-    img.src = project.image;
-    img.alt = project.title;
-    img.className = "detail-img";
-    mediaWrap.appendChild(img);
-  } else {
-    const ph = document.createElement("div");
-    ph.className = "detail-img-placeholder";
-    ph.textContent = "No image";
-    mediaWrap.appendChild(ph);
-  }
-
-  inner.appendChild(mediaWrap);
-
-  /* --- RIGHT: text body --- */
+  /* --- TOP: text body --- */
   const body = document.createElement("div");
   body.className = "detail-body";
   body.innerHTML = "<h2>" + project.title + "</h2>";
@@ -237,6 +204,54 @@ function showDetail(project) {
   }
 
   inner.appendChild(body);
+
+  /* --- BOTTOM: media (full width) --- */
+  const mediaWrap = document.createElement("div");
+  mediaWrap.className = "detail-media";
+
+  if (project.leaflet) {
+    const mapDiv = document.createElement("div");
+    mapDiv.id = "leafletMap";
+    mapDiv.className = "detail-map";
+    mapDiv.style.width = "100%";
+    mapDiv.style.height = "580px";
+    mediaWrap.appendChild(mapDiv);
+  } else if (project.mapEmbed) {
+    // ArcGIS StoryMap or other iframe embed — full width, tall
+    const frame = document.createElement("iframe");
+    frame.src = project.mapEmbed;
+    frame.className = "detail-map";
+    frame.allowFullscreen = true;
+    frame.style.width = "100%";
+    frame.style.height = "580px";
+    frame.style.border = "none";
+    frame.style.display = "block";
+    mediaWrap.appendChild(frame);
+  } else if (project.htmlEmbed) {
+    const frame = document.createElement("iframe");
+    frame.src = project.htmlEmbed;
+    frame.className = "detail-map";
+    frame.style.width = "100%";
+    frame.style.height = "580px";
+    frame.style.border = "none";
+    frame.style.display = "block";
+    mediaWrap.appendChild(frame);
+  } else if (project.image) {
+    mediaWrap.classList.add("is-image");
+    const img = document.createElement("img");
+    img.src = project.image;
+    img.alt = project.title;
+    img.className = "detail-img";
+    mediaWrap.appendChild(img);
+  } else {
+    mediaWrap.classList.add("is-image");
+    const ph = document.createElement("div");
+    ph.className = "detail-img-placeholder";
+    ph.textContent = "No image";
+    mediaWrap.appendChild(ph);
+  }
+
+  inner.appendChild(mediaWrap);
   content.appendChild(inner);
 
   // Open overlay
